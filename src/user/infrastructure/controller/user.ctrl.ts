@@ -42,10 +42,31 @@ export class UserController {
         email: user.email,
         token,
       });
-      
     } catch (err) {
-      console.error(err);
       return res.status(500).send("Error when LOGGING IN USER");
+    }
+  };
+
+  public getUsers = async (req: Request, res: Response) => {
+    try {
+      const users = await this.userUseCase.getUsers();
+      if (!users) return res.status(404).send("USERS not found");
+
+      return res.status(200).send(users);
+    } catch (err) {
+      return res.status(500).send("Error when fetching USERS");
+    }
+  };
+
+  public getUser = async ({ params }: Request, res: Response) => {
+    try {
+      const { uuid } = params;
+      const user = await this.userUseCase.getUser(uuid);
+      if (!user) return res.status(404).send("USER not found");
+
+      return res.status(200).send(user);
+    } catch (err) {
+      return res.status(500).send("Error when fetching USER");
     }
   };
 }

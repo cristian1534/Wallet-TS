@@ -11,5 +11,7 @@ const userCtrl = new UserController(userUseCase);
 
 route.post("/user", userCtrl.addCtrl);
 route.post("/user/auth", userCtrl.logCtrl);
+route.get("/user", userCtrl.getUsers);
+route.get("/user/:uuid", userCtrl.getUser);
 
 export default route;
