@@ -10,5 +10,6 @@ const userUseCase = new UserUseCase(userRepository);
 const userCtrl = new UserController(userUseCase);
 
 route.post("/user", userCtrl.addCtrl);
+route.post("/user/auth", userCtrl.logCtrl);
 
 export default route;

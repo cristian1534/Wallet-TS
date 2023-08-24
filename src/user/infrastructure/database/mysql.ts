@@ -18,6 +18,7 @@ export const dbConnection = () => {
     connection.connect((err) => {
       if (err) {
         console.log("Could not connect to MYSQL", err.message);
+        reject(err);
       } else {
         console.log("MYSQL Connected");
         createTable(connection, tableSchemas);

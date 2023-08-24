@@ -1,6 +1,11 @@
-export interface UserEntity {
-    uuid: string;
-    name: string;
-    email: string;
-    password: string;
+export interface AuthEntity {
+  email: string;
+  hashedPassword: string;
 }
+
+export interface UserEntity extends AuthEntity {
+  uuid: string;
+  name: string;
+}
+
+

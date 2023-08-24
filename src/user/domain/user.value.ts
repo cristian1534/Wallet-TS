@@ -1,24 +1,43 @@
-import { v4 as uuid } from "uuid";
-import { UserEntity } from "./user.entity";
+import { UserEntity, AuthEntity } from "./user.entity";
 
+// REGISTER...
 export class UserValue implements UserEntity {
   uuid: string;
   name: string;
   email: string;
-  password: string;
+  hashedPassword: string;
 
   constructor({
+    uuid,
     name,
     email,
-    password,
+    hashedPassword,
   }: {
+    uuid: string;
     name: string;
     email: string;
-    password: string;
+    hashedPassword: string;
   }) {
-    this.uuid = uuid();
+    this.uuid = uuid;
     this.name = name;
     this.email = email;
-    this.password = password;
+    this.hashedPassword = hashedPassword;
+  }
+}
+
+
+// LOGIN...
+export class AuthValue implements AuthEntity {
+  email: string;
+  hashedPassword: string;
+
+  constructor({
+    email,
+    hashedPassword,
+  }: {
+    email: string;
+    hashedPassword: string;
+  }) {
+    (this.email = email), (this.hashedPassword = hashedPassword);
   }
 }
