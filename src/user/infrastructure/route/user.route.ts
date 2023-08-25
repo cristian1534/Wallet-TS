@@ -13,7 +13,8 @@ const userCtrl = new UserController(userUseCase);
 route.post("/user", userCtrl.addCtrl);
 route.post("/user/auth", userCtrl.logCtrl);
 route.get("/user", userCtrl.getUsers);
-route.get("/user/:uuid",validateToken, userCtrl.getUser);
-route.patch("/user/:uuid", userCtrl.updateUser);
+route.get("/user/:uuid", validateToken, userCtrl.getUser);
+route.patch("/user/:uuid", validateToken, userCtrl.updateUser);
+route.delete("/user/:uuid", validateToken, userCtrl.deleteUser);
 
 export default route;

@@ -100,4 +100,24 @@ export class MySQLRepository implements UserRepository {
       throw err;
     }
   }
+
+  async deleteUser(uuid: string): Promise<any> {
+    try {
+      const connection = await dbConnection();
+      const query = "DELETE FROM user WHERE uuid = ?";
+      const value = [uuid];
+
+      const [result] = await connection.promise().execute(query, value);
+      connection.end();
+
+      if (Array.isArray(result) && result.length === 0) {
+        return false;
+      }
+
+      return result;
+    } catch (err) {
+      console.error("Error when deleting USER");
+      throw err;
+    }
+  }
 }

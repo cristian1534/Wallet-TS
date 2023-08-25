@@ -6,4 +6,5 @@ export interface UserRepository {
   getUsers(): Promise<UserEntity[] | null>;
   getUser(uuid: string): Promise<UserEntity | null>;
   updateUser(uuid: string, data: Partial<UserEntity | null>): Promise<UserEntity | null>;
+  deleteUser(uuid: string): Promise<UserEntity | null>;
 }

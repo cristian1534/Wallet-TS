@@ -47,4 +47,9 @@ export class UserUseCase {
     const updatedUser = await this.userRepository.updateUser(uuid, data);
     return updatedUser;
   }
+
+  public async deleteUser(uuid: string) {
+    const deletedUser = await this.userRepository.deleteUser(uuid);
+    return deletedUser;
+  }
 }

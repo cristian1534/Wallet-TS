@@ -32,7 +32,7 @@ export class UserController {
 
       return this.httpResponse.Ok(res, user);
     } catch (err) {
-      return res.status(500).send("Error adding new USER");
+      return this.httpResponse.Error(res, "Error adding new USER");
     }
   };
 
@@ -58,7 +58,7 @@ export class UserController {
         token,
       });
     } catch (err) {
-      return res.status(500).send("Error when LOGGING IN USER");
+      return this.httpResponse.Error(res, "Error when LOGGING IN USER");
     }
   };
 
@@ -67,9 +67,9 @@ export class UserController {
       const users = await this.userUseCase.getUsers();
       if (!users) return res.status(404).send("USERS not found");
 
-      return res.status(200).send(users);
+      return this.httpResponse.Ok(res, users);
     } catch (err) {
-      return res.status(500).send("Error when fetching USERS");
+      return this.httpResponse.Error(res, "Error when fetching USERS");
     }
   };
 
@@ -79,9 +79,9 @@ export class UserController {
       const user = await this.userUseCase.getUser(uuid);
       if (!user) return res.status(404).send("USER not found");
 
-      return res.status(200).send(user);
+      return this.httpResponse.Ok(res, user);
     } catch (err) {
-      return res.status(500).send("Error when fetching USER");
+      return this.httpResponse.Error(res, "Error when fetching USER");
     }
   };
 
@@ -92,9 +92,22 @@ export class UserController {
       const updatedUser = await this.userUseCase.updateUser(uuid, body);
       if (!updatedUser) return res.status(404).send("USER not found to update");
 
-      return res.status(200).send(updatedUser);
+      return this.httpResponse.Ok(res, updatedUser);
     } catch (err) {
-      return;
+      return this.httpResponse.Error(res, "Error when updating USER");
     }
+  };
+
+  public deleteUser = async ({ params }: Request, res: Response) => {
+    try {
+      const { uuid } = params;
+      const deletedUser = await this.userUseCase.deleteUser(uuid);
+
+      if (!deletedUser) {
+        return this.httpResponse.NotFound(res, "USER not found");
+      }
+
+      return this.httpResponse.Ok(res, "USER when deleting successfully");
+    } catch (err) {}
   };
 }
