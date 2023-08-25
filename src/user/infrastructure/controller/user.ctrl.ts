@@ -2,13 +2,23 @@ import { Request, Response } from "express";
 import { UserUseCase } from "../../application/userUseCase";
 import bcrypt from "bcrypt";
 import { createToken } from "../helper/token.creator";
+import { HttpResponse } from "../error/validation.error";
+import { userSchema, loginSchema } from "../helper/validation.schema";
 
 export class UserController {
-  constructor(private userUseCase: UserUseCase) {}
+  constructor(
+    private userUseCase: UserUseCase,
+    private readonly httpResponse: HttpResponse = new HttpResponse()
+  ) {}
 
   public addCtrl = async ({ body }: Request, res: Response) => {
     try {
-      const { password, ...otherFields } = body;
+      const { error, value } = userSchema.validate(body);
+      if (error) {
+        return this.httpResponse.BadRequest(res, error);
+      }
+
+      const { password, ...otherFields } = value;
 
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -20,7 +30,7 @@ export class UserController {
 
       const user = await this.userUseCase.addUser(userWithHashedPassword);
 
-      return res.status(200).send(user);
+      return this.httpResponse.Ok(res, user);
     } catch (err) {
       return res.status(500).send("Error adding new USER");
     }
@@ -28,16 +38,21 @@ export class UserController {
 
   public logCtrl = async ({ body }: Request, res: Response) => {
     try {
-      const { email, password } = body;
+      const { error, value } = loginSchema.validate(body);
+      if (error) {
+        return this.httpResponse.BadRequest(res, error);
+      }
+
+      const { email, password } = value;
       const user = await this.userUseCase.logUser({
         email,
         hashedPassword: password,
       });
 
-      if (!user) return res.status(400).send("Wrong EMAIL or PASSWORD");
+      if (!user) return this.httpResponse.NotFound(res, "USER not found");
       const token = createToken(user);
 
-      return res.status(200).json({
+      return this.httpResponse.Ok(res, {
         name: user.name,
         email: user.email,
         token,
@@ -67,6 +82,19 @@ export class UserController {
       return res.status(200).send(user);
     } catch (err) {
       return res.status(500).send("Error when fetching USER");
+    }
+  };
+
+  public updateUser = async (req: Request, res: Response) => {
+    try {
+      const { body } = req;
+      const { uuid } = req.params;
+      const updatedUser = await this.userUseCase.updateUser(uuid, body);
+      if (!updatedUser) return res.status(404).send("USER not found to update");
+
+      return res.status(200).send(updatedUser);
+    } catch (err) {
+      return;
     }
   };
 }

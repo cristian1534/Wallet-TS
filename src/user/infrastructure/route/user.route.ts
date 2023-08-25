@@ -2,6 +2,7 @@ import { Router } from "express";
 import { MySQLRepository } from "../repository/mysql.repository";
 import { UserUseCase } from "../../application/userUseCase";
 import { UserController } from "../controller/user.ctrl";
+import { validateToken } from "../middleware/token.validator";
 
 const route = Router();
 
@@ -12,6 +13,7 @@ const userCtrl = new UserController(userUseCase);
 route.post("/user", userCtrl.addCtrl);
 route.post("/user/auth", userCtrl.logCtrl);
 route.get("/user", userCtrl.getUsers);
-route.get("/user/:uuid", userCtrl.getUser);
+route.get("/user/:uuid",validateToken, userCtrl.getUser);
+route.patch("/user/:uuid", userCtrl.updateUser);
 
 export default route;

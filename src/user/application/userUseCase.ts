@@ -1,3 +1,4 @@
+import { UserEntity } from "../domain/user.entity";
 import { UserRepository } from "../domain/user.repository";
 import { UserValue, AuthValue } from "../domain/user.value";
 import { v4 as uuidGenerator } from "uuid";
@@ -40,5 +41,10 @@ export class UserUseCase {
   public async getUser(uuid: string) {
     const user = await this.userRepository.getUser(uuid);
     return user;
+  }
+
+  public async updateUser(uuid: string, data: Partial<UserEntity>) {
+    const updatedUser = await this.userRepository.updateUser(uuid, data);
+    return updatedUser;
   }
 }

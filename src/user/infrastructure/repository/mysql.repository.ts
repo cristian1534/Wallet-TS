@@ -65,7 +65,6 @@ export class MySQLRepository implements UserRepository {
       const connection = await dbConnection();
       const query = "SELECT name, email FROM user WHERE uuid = ?";
       const value = [uuid];
-      console.log(value);
 
       const [user] = await connection.promise().execute(query, value);
       connection.end();
@@ -73,6 +72,31 @@ export class MySQLRepository implements UserRepository {
       return user;
     } catch (err) {
       console.error("Error fetching USER: ", err);
+      throw err;
+    }
+  }
+
+  async updateUser(uuid: string, data: Partial<UserEntity>): Promise<any> {
+    try {
+      const connection = await dbConnection();
+      const fieldsToUpdate = Object.keys(data)
+        .map((key) => `${key} = ?`)
+        .join(", ");
+      const value = Object.values(data);
+      value.push(uuid);
+      const query = `UPDATE user SET ${fieldsToUpdate} WHERE uuid = ?`;
+
+      await connection.promise().execute(query, value);
+
+      const updatedUserQuery = "SELECT name, email FROM user WHERE uuid = ?";
+      const [updatedUser] = await connection
+        .promise()
+        .execute(updatedUserQuery, [uuid]);
+      connection.end();
+
+      return updatedUser;
+    } catch (err) {
+      console.error("Error when updating USER:", err);
       throw err;
     }
   }

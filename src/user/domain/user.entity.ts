@@ -8,4 +8,6 @@ export interface UserEntity extends AuthEntity {
   name: string;
 }
 
-
+export interface ValidateTokenEntity extends UserEntity {
+  user: UserEntity;
+}
