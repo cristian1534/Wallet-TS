@@ -1,16 +1,14 @@
-FROM node:14
+FROM node:16
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install -g typescript
-
 RUN npm install
 
 COPY . .
 
-RUN tsc
+RUN npm run build
 
 EXPOSE 5000
 
