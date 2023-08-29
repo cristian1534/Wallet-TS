@@ -5,7 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon ./src/app.ts"
+    "dev": "nodemon ./src/app.ts",
+    "start": "node build/app.js",
+    "tsc": "tsc",
+    "build": "tsc"
   },
   "author": "Cristian Machuca",
   "license": "MIT",
