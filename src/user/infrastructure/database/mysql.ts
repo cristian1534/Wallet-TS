@@ -5,6 +5,7 @@ import { createTable } from "../helper/table.creator";
 
 export const dbConnection = () => {
   return new Promise<mysql.Connection>((resolve, reject) => {
+
     const connection = mysql.createConnection({
       host: process.env.MYSQL_HOST,
       database: process.env.MYSQL_DATABASE,
@@ -13,6 +14,7 @@ export const dbConnection = () => {
       ssl: {
         rejectUnauthorized: false,
       },
+      
     });
 
     connection.connect((err) => {
