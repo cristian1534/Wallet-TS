@@ -1,3 +1,11 @@
+import "dotenv/config";
+
+const nodeEnv = process.env.NODE_ENV;
+const swaggerPath =
+  nodeEnv === "production"
+    ? process.env.SWAGGER_PATH_PROD
+    : __dirname + process.env.SWAGGER_PATH_DEV;
+
 export const options = {
   definition: {
     openapi: "3.0.0",
@@ -32,5 +40,5 @@ export const options = {
       },
     ],
   },
-  apis: [__dirname + "/../routes/*.ts"],
+  apis: [`${swaggerPath}`],
 };
