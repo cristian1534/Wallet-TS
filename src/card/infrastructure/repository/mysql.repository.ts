@@ -26,4 +26,59 @@ export class MySQLRepository implements CardRepository {
       throw err;
     }
   }
+
+  async getCards(): Promise<any> {
+    try {
+      const connection = await dbConnection();
+      const query = "SELECT * FROM card";
+
+      const [cards] = await connection.promise().execute(query);
+      connection.end();
+
+      return cards;
+    } catch (err) {
+      console.error("Error fetching CARDS");
+      throw err;
+    }
+  }
+
+  async getCard(uuid: string): Promise<any> {
+    try {
+      const connection = await dbConnection();
+      const query = "SELECT * FROM card WHERE uuid = ?";
+      const value = [uuid];
+
+      const [card] = await connection.promise().execute(query, value);
+      return card;
+    } catch (err) {
+      console.error("Error fetching CARD");
+      throw err;
+    }
+  }
+
+  async updateCard(uuid: string, data: Partial<CardEntity>): Promise<any> {
+    try {
+      const connection = await dbConnection();
+      const fieldsToUpdate = Object.keys(data)
+        .map((key) => `${key} = ?`)
+        .join(", ");
+      const value = Object.values(data);
+      value.push(uuid);
+
+      const query = `UPDATE card SET ${fieldsToUpdate} WHERE uuid = ?`;
+
+      await connection.promise().execute(query, value);
+
+      const updatedCardQuery = "SELECT * FROM card WHERE uuid = ?";
+      const [updatedCard] = await connection
+        .promise()
+        .execute(updatedCardQuery, [uuid]);
+      connection.end();
+
+      return updatedCard;
+    } catch (err) {
+      console.error("Error updating CARD");
+      throw err;
+    }
+  }
 }

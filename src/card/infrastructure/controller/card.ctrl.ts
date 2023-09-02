@@ -36,4 +36,40 @@ export class CardController {
       return this.httpResponse.Error(res, err);
     }
   };
+
+  public getCards = async (req: Request, res: Response) => {
+    try {
+      const cards = await this.cardUseCase.getCards();
+      if (!cards) return this.httpResponse.NotFound(res, "CARDS not found");
+
+      return this.httpResponse.Ok(res, cards);
+    } catch (err) {
+      return this.httpResponse.Error(res, err);
+    }
+  };
+
+  public getCard = async ({ params }: Request, res: Response) => {
+    try {
+      const { uuid } = params;
+      const card = await this.cardUseCase.getCard(uuid);
+      if (!card) return this.httpResponse.NotFound(res, "CARD not found");
+
+      return this.httpResponse.Ok(res, card);
+    } catch (err) {
+      return this.httpResponse.Error(res, err);
+    }
+  };
+
+  public updateCard = async (req: Request, res: Response) => {
+    try {
+      const { uuid } = req.params;
+      const updatedCard = await this.cardUseCase.updateCard(uuid, req.body);
+      if (!updatedCard)
+        return this.httpResponse.NotFound(res, "CARD not found to update");
+
+      return this.httpResponse.Ok(res, updatedCard);
+    } catch (err) {
+      return this.httpResponse.Error(res, err);
+    }
+  };
 }

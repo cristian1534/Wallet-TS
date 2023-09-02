@@ -11,5 +11,8 @@ const cardUseCase = new CardUseCase(cardRepository);
 const cardCtrl = new CardController(cardUseCase);
 
 route.post("/card", validateToken, cardCtrl.addCard);
+route.get("/card", validateToken, cardCtrl.getCards);
+route.get("/card/:uuid", validateToken, cardCtrl.getCard);
+route.patch("/card/:uuid", validateToken, cardCtrl.updateCard);
 
 export default route;
