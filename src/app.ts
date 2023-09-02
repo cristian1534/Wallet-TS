@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { dbConnection } from "./user/infrastructure/database/mysql";
 import userRoute from "./user/infrastructure/routes/user.route";
+import cardRoute from "./card/infrastructure/routes/card.route";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { options } from "./user/infrastructure/documentation/swagger.options";
@@ -16,7 +17,8 @@ app.use(express.json());
 
 app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(specs));
 
-app.use(userRoute);
+app.use("/", userRoute);
+app.use("/", cardRoute);
 
 dbConnection();
 app.listen(PORT, () => {
