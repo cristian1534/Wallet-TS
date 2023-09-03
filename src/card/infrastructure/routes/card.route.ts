@@ -14,5 +14,6 @@ route.post("/card", validateToken, cardCtrl.addCard);
 route.get("/card", validateToken, cardCtrl.getCards);
 route.get("/card/:uuid", validateToken, cardCtrl.getCard);
 route.patch("/card/:uuid", validateToken, cardCtrl.updateCard);
+route.delete("/card/:uuid", validateToken, cardCtrl.deleteCard);
 
 export default route;

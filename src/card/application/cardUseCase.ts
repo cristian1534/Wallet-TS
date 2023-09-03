@@ -43,4 +43,9 @@ export class CardUseCase {
     const updatedCard = await this.cardRepository.updateCard(uuid, data);
     return updatedCard;
   }
+
+  public async deleteCard(uuid: string) {
+    const deletedCard = await this.cardRepository.deleteCard(uuid);
+    return deletedCard;
+  }
 }

@@ -81,4 +81,24 @@ export class MySQLRepository implements CardRepository {
       throw err;
     }
   }
+
+  async deleteCard(uuid: string): Promise<any> {
+    try {
+      const connection = await dbConnection();
+      const query = "DELETE FROM card WHERE uuid = ?";
+      const value = [uuid];
+
+      const [result] = await connection.promise().execute(query, value);
+      connection.end();
+
+      if (Array.isArray(result) && result.length === 0) {
+        return false;
+      }
+
+      return result;
+    } catch (err) {
+      console.error("Error deleting CARD");
+      throw err;
+    }
+  }
 }

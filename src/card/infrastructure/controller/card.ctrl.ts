@@ -72,4 +72,17 @@ export class CardController {
       return this.httpResponse.Error(res, err);
     }
   };
+
+  public deleteCard = async (req: Request, res: Response) => {
+    try {
+      const { uuid } = req.params;
+      const deletedCard = await this.cardUseCase.deleteCard(uuid);
+      if (!deletedCard)
+        return this.httpResponse.NotFound(res, "CARD not found");
+
+      return this.httpResponse.Ok(res, deletedCard);
+    } catch (err) {
+      return this.httpResponse.Error(res, err);
+    }
+  };
 }
