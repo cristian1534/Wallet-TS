@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import { dbConnection } from "./user/infrastructure/database/mysql";
 import userRoute from "./user/infrastructure/routes/user.route";
-import cardRoute from "./card/infrastructure/routes/card.route";
+import cardRoute from "./user/infrastructure/routes/card.route";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { options } from "./user/infrastructure/documentation/swagger.options";
