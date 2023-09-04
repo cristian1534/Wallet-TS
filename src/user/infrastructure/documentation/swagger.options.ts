@@ -21,7 +21,6 @@ export const options = {
     },
     servers: [
       {
-        url: process.env.PORT || "http://localhost:5000",
         description: "Backend NodeJS - TS Hexagonal Structure.",
       },
     ],
