@@ -23,7 +23,7 @@ const cardCtrl = new CardController(cardUseCase);
  *   schemas:
  *     Card:
  *       type: object
- *       required
+ *       required:
  *         - type
  *         - cardNumber
  *         - propertyUser
@@ -70,7 +70,7 @@ const cardCtrl = new CardController(cardUseCase);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Register'
+ *               $ref: '#/components/schemas/Card'
  *       500:
  *         description: Error adding new CARD
  */
