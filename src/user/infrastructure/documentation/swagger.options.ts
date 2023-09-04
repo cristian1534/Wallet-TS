@@ -21,6 +21,7 @@ export const options = {
     },
     servers: [
       {
+        url: "https://wallet-ts.onrender.com",
         description: "Backend NodeJS - TS Hexagonal Structure.",
       },
     ],
