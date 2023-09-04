@@ -6,6 +6,11 @@ const swaggerPath =
     ? process.env.SWAGGER_PATH_PROD
     : __dirname + process.env.SWAGGER_PATH_DEV;
 
+const URL =
+  nodeEnv === "production"
+    ? "https://wallet-ts.onrender.com"
+    : "http://localhost:5000";
+
 export const options = {
   definition: {
     openapi: "3.0.0",
@@ -21,7 +26,7 @@ export const options = {
     },
     servers: [
       {
-        url: "https://wallet-ts.onrender.com",
+        url: URL,
         description: "Backend NodeJS - TS Hexagonal Structure.",
       },
     ],
