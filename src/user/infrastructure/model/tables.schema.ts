@@ -24,4 +24,16 @@ export const tableSchemas = [
       )
     `,
   },
+  {
+    tableName: "transaction",
+    tableQuery: `
+      CREATE TABLE IF NOT EXISTS transaction (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        uuid VARCHAR(50),
+        type VARCHAR(50),
+        amount BIGINT(16),
+        userId VARCHAR(50)
+      )
+    `,
+  },
 ];

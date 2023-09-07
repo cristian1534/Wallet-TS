@@ -4,6 +4,7 @@ import cors from "cors";
 import { dbConnection } from "./user/infrastructure/database/mysql";
 import userRoute from "./user/infrastructure/routes/user.route";
 import cardRoute from "./user/infrastructure/routes/card.route";
+import transactionRoute from "./user/infrastructure/routes/transaction.route";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { options } from "./user/infrastructure/documentation/swagger.options";
@@ -19,6 +20,7 @@ app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use("/", userRoute);
 app.use("/", cardRoute);
+app.use("/", transactionRoute);
 
 dbConnection();
 app.listen(PORT, () => {

@@ -4,7 +4,7 @@ import { CardType } from "./card.entity";
 // REGISTER CARD...
 export class CardValue implements CardEntity {
   uuid: string;
-  type: "Credit" | "Debit";
+  type: CardType;
   cardNumber: number;
   propertyUser: string;
   userId: string;
