@@ -11,5 +11,11 @@ const transactionUseCase = new TransactionUseCase(transactionRepository);
 const transactionCtrl = new TransactionController(transactionUseCase);
 
 route.post("/transaction", validateToken, transactionCtrl.addTransaction);
+route.get("/transaction", validateToken, transactionCtrl.getTransactions);
+route.delete(
+  "/transaction/:uuid",
+  validateToken,
+  transactionCtrl.deleteTransaction
+);
 
 export default route;

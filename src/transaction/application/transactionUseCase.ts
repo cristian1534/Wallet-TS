@@ -27,4 +27,15 @@ export class TransactionUseCase {
       this.transactionRepository.addTransaction(transactionValue);
     return transactionCreated;
   }
+
+  public async getTransactions() {
+    const transactions = await this.transactionRepository.getTransactions();
+    return transactions;
+  }
+
+  public async deleteTransaction(uuid: string) {
+    const deletedTransaction =
+      await this.transactionRepository.deleteTransaction(uuid);
+    return deletedTransaction;
+  }
 }

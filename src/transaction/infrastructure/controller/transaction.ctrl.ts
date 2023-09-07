@@ -37,4 +37,42 @@ export class TransactionController {
       return this.httpResponse.Error(res, err);
     }
   };
+
+  public getTransactions = async (req: Request, res: Response) => {
+    try {
+      const SECRET_TOKEN = process.env.SECRET_TOKEN as string;
+      const token = req.headers.authorization?.split(" ")[1];
+      if (!token) {
+        return this.httpResponse.BadRequest(res, "Token not provided");
+      }
+
+      let payload = jwt.decode(token, SECRET_TOKEN);
+
+      const transactions = await this.transactionUseCase.getTransactions();
+      if (!transactions)
+        return this.httpResponse.NotFound(res, "Transactions not found");
+
+      const filteredTransactions = transactions.filter(
+        (tr) => tr.userId === payload.sub
+      );
+
+      return this.httpResponse.Ok(res, filteredTransactions);
+    } catch (err) {
+      return this.httpResponse.Error(res, err);
+    }
+  };
+
+  public deleteTransaction = async (req: Request, res: Response) => {
+    try {
+      const { uuid } = req.params;
+      const deletedTransaction =
+        await this.transactionUseCase.deleteTransaction(uuid);
+      if (!deletedTransaction)
+        return this.httpResponse.NotFound(res, "Transaction not found");
+
+      return this.httpResponse.Ok(res, deletedTransaction);
+    } catch (err) {
+      return this.httpResponse.Error(res, err);
+    }
+  };
 }
