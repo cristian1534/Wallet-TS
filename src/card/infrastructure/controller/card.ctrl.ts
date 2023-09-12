@@ -28,6 +28,7 @@ export class CardController {
         cardNumber: value.cardNumber,
         propertyUser: value.propertyUser,
         userId: payload.sub,
+        balance: value.balance,
       };
 
       const card = await this.cardUseCase.addCard(cardData);

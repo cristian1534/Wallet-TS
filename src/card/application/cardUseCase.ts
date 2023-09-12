@@ -11,11 +11,13 @@ export class CardUseCase {
     cardNumber,
     propertyUser,
     userId,
+    balance,
   }: {
     type: CardType;
     cardNumber: number;
     propertyUser: string;
     userId: string;
+    balance: number;
   }) {
     const uuid = uuidGenerator();
     const cardValue = new CardValue({
@@ -24,6 +26,7 @@ export class CardUseCase {
       cardNumber,
       propertyUser,
       userId,
+      balance,
     });
     const cardCreated = this.cardRepository.addCard(cardValue);
     return cardCreated;

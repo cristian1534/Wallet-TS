@@ -7,7 +7,7 @@ export class MySQLRepository implements CardRepository {
     try {
       const connection = await dbConnection();
       const query =
-        "INSERT INTO card (uuid, type, cardNumber, propertyUser, userId) VALUES (?, ?, ?, ?, ?)";
+        "INSERT INTO card (uuid, type, cardNumber, propertyUser, userId, balance) VALUES (?, ?, ?, ?, ?, ?)";
 
       await connection
         .promise()
@@ -17,6 +17,7 @@ export class MySQLRepository implements CardRepository {
           card.cardNumber,
           card.propertyUser,
           card.userId,
+          card.balance,
         ]);
       connection.end();
 

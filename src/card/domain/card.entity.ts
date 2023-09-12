@@ -6,4 +6,5 @@ export interface CardEntity {
   cardNumber: number;
   propertyUser: string;
   userId: string;
+  balance: number;
 }

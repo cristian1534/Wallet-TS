@@ -20,7 +20,8 @@ export const tableSchemas = [
         type VARCHAR(50),
         cardNumber BIGINT(16),
         propertyUser VARCHAR(50),    
-        userId VARCHAR(50)
+        userId VARCHAR(50),
+        balance BIGINT(16)
       )
     `,
   },

@@ -37,11 +37,14 @@ const cardCtrl = new CardController(cardUseCase);
  *         propertyUser:
  *           type: string
  *           description: Owner's name
+ *         balance: 
+ *           type: number
+ *           description: default 200000       
  *         example:
  *           type: "Credit"
  *           numberCard: 1234123412341234
  *           propertyUser: "Pedro Gomez"
- *
+ *           balance: 2000000    
  *
  */
 
