@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wallet-ts-deployment
+  labels:
+   app: server
+spec:
+  replicas: 1
+  selector: 
+   matchLabels:
+     app: server
+  template:
+   metadata:
+     labels:
+      app: server
+   spec:
+    containers:
+      - name: wallet-ts-container
+        image: cristianmachuca/wallet-ts:latest
+        resources:
+         limits:
+           memory: "128Mi"
+           cpu: "500m"
+        ports:
+         - containerPort: 5000
+        env:
+          - name: NODE_ENV
+            value: production
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secrets
+                key: MYSQL_ROOT_PASSWORD
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secrets
+                key: MYSQL_DATABASE
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secrets
+                key: MYSQL_USER
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secrets
+                key: MYSQL_PASSWORD
+          - name: MYSQL_HOST
+            value: mysql-service
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql-container
+          image: mysql:latest
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          envFrom:
+            - secretRef:
+                name: mysql-secrets
+          ports:
+            - containerPort: 3306
